@@ -79,8 +79,6 @@
     box-shadow:0 1px 4px rgba(20,33,61,.14); width:216px;}
   .legend-title{font-weight:700; font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; display:block;}
   .legend-scale{display:block; margin-top:8px; padding-top:8px; border-top:1px solid var(--line);}
-  .legend-gradient{height:8px; width:100%; border-radius:var(--radius); display:block; margin-bottom:4px;}
-  .legend-scale-labels{display:flex; justify-content:space-between; gap:6px; font-family:var(--font-ui); font-variant-numeric:tabular-nums; color:var(--muted); font-size:10px;}
 
   .area-select-controls{position:absolute; right:16px; top:16px; z-index:400; display:flex; gap:6px;}
   .area-select-btn{background:rgba(255,255,255,.98); border:1px solid var(--line); border-radius:var(--radius);
@@ -335,6 +333,11 @@
   .type-filter-btn{gap:8px;}
   .address-search button{color:var(--calcite-text-3);}
   .address-search button:hover{color:var(--calcite-brand);}
+  .address-search input[type=text]{padding-right:58px;}
+  .address-search .address-clear{position:absolute; right:32px; top:50%; transform:translateY(-50%); width:22px; height:22px; display:flex; align-items:center; justify-content:center;
+    background:none; border:none; padding:0; cursor:pointer; color:var(--calcite-text-3);}
+  .address-search .address-clear[hidden]{display:none;}
+  .address-search .address-clear:hover{color:var(--calcite-text-1); background:var(--calcite-surface-3);}
   .address-search-error, .address-suggestions{border-radius:0; border:1px solid var(--calcite-border-3); box-shadow:var(--calcite-shadow-md);}
   .address-search-error{color:var(--calcite-danger);}
   .address-suggestions li{font-size:14px; padding:7px 12px;}
@@ -349,8 +352,6 @@
   input[type=checkbox], input[type=radio]{accent-color:var(--calcite-brand);}
   .type-swatch{border-radius:0;}
   .legend{border-radius:0; border:1px solid var(--calcite-border-3); box-shadow:var(--calcite-shadow-sm); font-size:12px; padding:12px 14px; width:224px;}
-  .legend-gradient{border-radius:0;}
-  .legend-scale-labels{font-size:12px; color:var(--calcite-text-3);}
   .legend-scale{border-top:1px solid var(--calcite-border-3);}
   .area-select-btn{height:32px; padding:0 12px; font-size:14px; font-weight:400; color:var(--calcite-text-1); background:#fff; border:1px solid var(--calcite-border-1);
     border-radius:0; box-shadow:var(--calcite-shadow-sm);}
@@ -367,6 +368,27 @@
     font-family:var(--font-ui); font-size:12px; font-weight:500; line-height:1.4; padding:8px 12px; max-width:20rem;}
   .leaflet-tooltip.seg-tooltip::before{display:none;}
   .bar-tooltip strong, .seg-tooltip strong{font-weight:700;}
+  /* Map layers: the legend rows and the layer switcher under the zoom buttons */
+  .legend-row{display:flex; align-items:center; gap:8px; margin-top:6px; font-size:12px; color:var(--calcite-text-1);}
+  .legend-row:first-child{margin-top:0;}
+  .legend-line{display:inline-block; width:22px; height:0; flex:none;}
+  .layer-switch{position:relative;}
+  .layer-switch > a{display:flex; align-items:center; justify-content:center; color:var(--calcite-text-2); cursor:pointer; border-bottom:none !important;}
+  .layer-switch > a[aria-expanded=true]{background:var(--calcite-surface-3); color:var(--calcite-text-1);}
+  .layer-menu{position:absolute; top:0; left:calc(100% + 8px); width:240px; background:var(--calcite-surface-2); border:1px solid var(--calcite-border-3); box-shadow:var(--calcite-shadow-md); padding:6px 0 4px; z-index:1000; cursor:default;}
+  .layer-menu[hidden]{display:none;}
+  .layer-menu-title{display:block; padding:4px 12px 6px; font-size:12px; font-weight:500; color:var(--calcite-text-3);}
+  .layer-option{display:flex; align-items:center; gap:10px; padding:7px 12px; font-size:14px; line-height:1.3; color:var(--calcite-text-1); cursor:pointer;}
+  .layer-option:hover{background:var(--calcite-hover);}
+  .layer-option input{margin:0; flex:none;}
+  /* Count types menu: group headings, and the modeled estimates that are not available yet */
+  .type-filter-group{padding:8px 12px 2px; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--calcite-text-3);}
+  .type-filter-group:first-of-type{padding-top:4px;}
+  .type-filter-item.is-soon{color:#949494; cursor:default;}
+  .type-filter-item.is-soon:hover{background:transparent;}
+  .soon-badge{margin-left:auto; flex:none; font-size:11px; font-weight:500; color:var(--calcite-text-3); background:var(--calcite-surface-3); border:1px solid var(--calcite-border-2); padding:1px 7px;}
+  .welcome-modal-note .welcome-modal-scope{margin:0 0 8px; color:var(--calcite-text-1);}
+  .welcome-modal-note .welcome-modal-scope strong{font-weight:600;}
   .seg-tooltip .seg-type{display:flex; align-items:center; gap:7px; margin-top:3px;}
   .seg-tooltip .type-swatch{margin-top:0;}
   .leaflet-tooltip.seg-tooltip{white-space:normal; width:max-content; max-width:20rem;}
@@ -474,6 +496,7 @@
         <li>Export counts as a CSV</li>
       </ul>
       <div class="welcome-modal-note">
+        <p class="welcome-modal-scope"><strong>Observed counts only.</strong> Modeled estimates, such as AADT, are not included; future versions may add them.</p>
         <p><span class="welcome-modal-disclaimer">All data in this prototype is synthetic and meant for testing purposes only.</span> Questions or feedback? Contact Marshall Daly at <a href="mailto:marshall.daly@dc.gov">marshall.daly@dc.gov</a>.</p>
       </div>
       <button class="welcome-modal-btn" id="welcomeModalCloseBtn">Start exploring</button>
@@ -493,6 +516,9 @@
         <input type="text" id="addressSearchInput" placeholder="Search an address&hellip;" aria-label="Search address" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list">
         <button id="addressSearchBtn" aria-label="Search">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button type="button" id="addressClearBtn" class="address-clear" aria-label="Clear the search and remove the address pin" hidden>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
         </button>
         <ul class="address-suggestions" id="addressSuggestions" role="listbox"></ul>
         <div class="address-search-error" id="addressSearchError" style="display:none;"></div>
@@ -1316,6 +1342,12 @@ function buildDataset(){
   // Only show points that actually have at least one source -- same "no dead markers" rule
   // already applied to the road network.
   POINTS = POINTS_ALL.filter(pt => POINT_CATEGORIES.some(c => dataset[pt.id].categories[c.key].available));
+  // Road blocks with no count of any type at any date are not part of the portal: they are removed from the map and the data
+  // (blocks that have counts, but none inside the current filter or timeframe, stay and are drawn as "No counts").
+  for(let i = SEGMENTS.length - 1; i >= 0; i--){
+    const id = SEGMENTS[i].id;
+    if(!CATEGORIES.some(c => dataset[id].categories[c.key].available)){ SEGMENTS.splice(i, 1); delete dataset[id]; }
+  }
 }
 
 // ---------- Color scales ----------
@@ -1375,6 +1407,32 @@ function typeCountOf(id){
   coverageCache.set(id, n);
   return n;
 }
+// ---------- Map layers ----------
+// "All count types" colors a block by how many count types have data for it (the teal steps). The three travel-mode layers do the same for one
+// travel mode at a time -- Micromobility, Pedestrian, Vehicle -- counting only the count types that cover that mode, with the same colors. Two or more
+// means the same thing is counted by different methods. All layers honor the Count types menu and the timeframe.
+const MAP_LAYERS = [
+  { key:'all',           label:'All counts' },
+  { key:'micromobility', label:'Micromobility counts', mode:'micromobility' },
+  { key:'pedestrian',    label:'Pedestrian counts',    mode:'pedestrian' },
+  { key:'vehicle',       label:'Vehicle counts',       mode:'vehicle' }
+];
+let mapLayer = 'all';
+const modeCache = new Map();
+function modeTypesOf(id, mode){
+  const k = mode + '|' + id;
+  if(!modeCache.has(k)) modeCache.set(k, CATEGORIES.filter(c => activeTypes.has(c.key) && hasDataInTimeframe(id, c.key) && dataset[id].categories[c.key].byMode && dataset[id].categories[c.key].byMode[mode]));
+  return modeCache.get(k);
+}
+// The most count types any block has for one travel mode (all types, whole history), so a layer's legend lists only the steps that exist on it.
+const modeMaxCache = {};
+function maxTypesForMode(mode){
+  if(!(mode in modeMaxCache)){
+    modeMaxCache[mode] = Math.max(1, Math.max.apply(null, SEGMENTS.map(seg => CATEGORIES.filter(c => { const e = dataset[seg.id].categories[c.key]; return e && e.available && e.byMode && e.byMode[mode]; }).length)));
+  }
+  return modeMaxCache[mode];
+}
+function layerCountOf(id){ return mapLayer === 'all' ? typeCountOf(id) : modeTypesOf(id, mapLayer).length; }
 // The most count types any location has across the whole dataset (3 on segments today). It is the dark end of the ramp
 // and does not move with the filter or timeframe, so a given shade always means the same number of types.
 let maxTypesAnywhere = null;
@@ -1396,8 +1454,9 @@ function colorForTypeCount(n){
 // ---------- Map layer ----------
 // Segments and points are colored by how many count types have data.
 function refreshDrawOrder(){
-  // Locations with more types draw on top.
-  segmentDrawOrder = SEGMENTS.slice().sort((a,b) => typeCountOf(a.id) - typeCountOf(b.id));
+  // Locations with more types (on the travel-mode layers, comparable ones) draw on top.
+  segmentDrawOrder = SEGMENTS.slice().sort((a,b) => layerCountOf(a.id) - layerCountOf(b.id));
+  segmentDrawOrder.forEach(seg => { if(polylineLayers[seg.id]) polylineLayers[seg.id].bringToFront(); }); // re-stack the lines already on the map
 }
 // The selected segment or point gets an outline in this color (DDOT red -- nothing else on the map is red, and it reads
 // against both the yellow-to-green availability ramp and the gray no-count style).
@@ -1423,7 +1482,7 @@ function styleForSegment(seg){
 }
 function computeBaseSegmentStyle(seg){
   const isSelected = seg.id === selectedSegmentId;
-  const n = typeCountOf(seg.id);
+  const n = layerCountOf(seg.id);
   if(n === 0) return { color:'#B7BCC4', weight: isSelected ? 7 : 3.4, dashArray:'4 4', opacity:0.85 };
   return { color: colorForTypeCount(n), weight: isSelected ? 7 : 4.2, dashArray:null, opacity:1 };
 }
@@ -1446,7 +1505,7 @@ function computeBasePointStyle(pt){
   if(n === 0) return { radius: isSelected ? 9 : 4, color:'#fff', weight:1, fillColor:'#B7BCC4', fillOpacity:0.7 };
   return { radius: isSelected ? 10 : 6, color:'#fff', weight:1.5, fillColor: colorForTypeCount(n), fillOpacity:1 };
 }
-function invalidateVolumes(){ coverageCache.clear(); }
+function invalidateVolumes(){ coverageCache.clear(); modeCache.clear(); }
 
 // ---------- Area selection (draw a box or circle, browse everything inside it) ----------
 function lineIntersectsBounds(coords, bounds){
@@ -1640,6 +1699,38 @@ function initAreaSelect(){
   });
 }
 
+// A layers button under the zoom buttons that opens a small menu of map layers (Calcite-style: white card, radio list).
+const LAYERS_ICON = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M8 2l6 3.2L8 8.4 2 5.2 8 2z"/><path d="M2 8.2l6 3.2 6-3.2M2 11.2l6 3.2 6-3.2"/></svg>';
+function initLayerSwitcher(){
+  const ctl = L.control({ position:'topleft' });
+  ctl.onAdd = function(){
+    const box = L.DomUtil.create('div', 'leaflet-bar layer-switch');
+    box.innerHTML = '<a href="#" role="button" id="layerSwitchBtn" aria-label="Map layers" aria-haspopup="true" aria-expanded="false" data-tooltip="Map layers">' + LAYERS_ICON + '</a>' +
+      '<div class="layer-menu" id="layerMenu" role="radiogroup" aria-label="Map layer" hidden><span class="layer-menu-title">Map layer</span>' +
+      MAP_LAYERS.map(l => '<label class="layer-option"><input type="radio" name="mapLayer" value="' + l.key + '"' + (l.key === mapLayer ? ' checked' : '') + '><span>' + l.label + '</span></label>').join('') + '</div>';
+    L.DomEvent.disableClickPropagation(box);
+    L.DomEvent.disableScrollPropagation(box);
+    const btn = box.querySelector('#layerSwitchBtn'), menu = box.querySelector('#layerMenu');
+    // While the menu is open the button's own tooltip would sit on top of it, so it is switched off then.
+    const setOpen = open => {
+      menu.hidden = !open; btn.setAttribute('aria-expanded', String(open));
+      if(open){ btn.removeAttribute('data-tooltip'); ensureTooltipEl().style.display = 'none'; } else btn.setAttribute('data-tooltip', 'Map layers');
+    };
+    L.DomEvent.on(btn, 'click', e => { L.DomEvent.preventDefault(e); setOpen(menu.hidden); });
+    box.querySelectorAll('input[name=mapLayer]').forEach(r => r.addEventListener('change', () => {
+      mapLayer = r.value;
+      refreshDrawOrder(); renderMap(); renderLegend();
+      setOpen(false);
+    }));
+    document.addEventListener('click', e => { if(!menu.hidden && !e.composedPath().includes(box)) setOpen(false); });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') setOpen(false); });
+    wireBarTooltips(box);
+    return box;
+  };
+  ctl.addTo(map);
+}
+// The middle of the District: the midpoint of its bounding box (about 38.79 to 39.00 N, 77.12 to 76.91 W). The map opens centered here.
+const DC_CENTER = [38.8936, -77.0146];
 function initMap(){
   map = L.map('map', { zoomControl:true, preferCanvas:true }).setView([38.9072,-77.0369], 12);
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -1647,6 +1738,7 @@ function initMap(){
     maxZoom: 16
   }).addTo(map);
   pointLayerGroup = L.layerGroup();
+  initLayerSwitcher();
   map.on('click', () => {
     selectedSegmentId = null;
     selectedPointId = null;
@@ -1661,9 +1753,18 @@ function initMap(){
   }));
   if(SEGMENTS.length){
     map.fitBounds([[minLat,minLng],[maxLat,maxLng]], { padding:[16,16] });
-    map.setZoom(map.getZoom() + 2); // two levels closer than the bounds-fit default (one level out from the prior +3)
+    map.setZoom(map.getZoom() + 1); // one level closer than the bounds-fit default
   }
-  setTimeout(() => map.invalidateSize(), 0);
+  // Once the page has laid out (so the map has its real size), settle the size and center the view on the middle of the city.
+  const startZoom = map.getZoom();
+  setTimeout(() => { map.invalidateSize(); map.setView(DC_CENTER, startZoom, { animate:false }); }, 0);
+}
+function segmentTooltipHtml(seg){
+  const row = MODE_ROWS.find(r => r.key === mapLayer);
+  const types = row ? modeTypesOf(seg.id, mapLayer) : CATEGORIES.filter(c => activeTypes.has(c.key) && hasDataInTimeframe(seg.id, c.key));
+  const name = '<strong>' + escapeHtml(seg.name) + '</strong><br>';
+  if(!types.length) return name + (row ? 'No ' + row.label.toLowerCase() + ' counts available' : 'No counts available');
+  return name + (row ? row.label + ' counts available:' : 'Counts available:') + types.map(c => '<span class="seg-type">' + typeSwatchHtml(c) + escapeHtml(c.short) + '</span>').join('');
 }
 function escapeHtml(t){ return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 function renderMap(){
@@ -1673,13 +1774,9 @@ function renderMap(){
       polylineLayers[seg.id].setStyle(style);
     } else {
       const layer = L.polyline(seg.coords, style).addTo(map);
-      // The tooltip is built each time it opens, so it follows the Count types menu and the timeframe: the roadway, then the count types it has,
-      // each with the same swatch (solid or hatched) and color it has in the charts.
-      layer.bindTooltip(() => {
-        const types = CATEGORIES.filter(c => activeTypes.has(c.key) && hasDataInTimeframe(seg.id, c.key));
-        return '<strong>' + escapeHtml(seg.name) + '</strong><br>' + (types.length === 0 ? 'No counts available'
-          : 'Counts available:' + types.map(c => '<span class="seg-type">' + typeSwatchHtml(c) + escapeHtml(c.short) + '</span>').join(''));
-      }, { sticky:true, className:'seg-tooltip' });
+      // The tooltip is built each time it opens, so it follows the map layer, the Count types menu and the timeframe: the roadway, then the count
+      // types it has (on a travel-mode layer, the ones that count that mode), each with the swatch it has in the charts.
+      layer.bindTooltip(() => segmentTooltipHtml(seg), { sticky:true, className:'seg-tooltip' });
       layer.on('click', (e) => {
         L.DomEvent.stopPropagation(e);
         selectedSegmentId = seg.id;
@@ -1717,10 +1814,16 @@ function renderMap(){
   if(selectedPointId && pointLayers[selectedPointId]) pointLayers[selectedPointId].bringToFront(); // selected point above its neighbors
 }
 function renderLegend(){
-  const legend = document.getElementById('legend');
-  legend.innerHTML = '<span class="legend-title">Count types available</span>' +
-    '<span class="legend-scale"><span class="legend-gradient" style="background:linear-gradient(90deg,' + COVERAGE_STOPS.join(',') + ')"></span>' +
-    '<span class="legend-scale-labels"><span>1 type</span><span>' + computeMaxTypes() + ' types</span></span></span>';
+  const legend = document.getElementById('legend'), layer = MAP_LAYERS.find(l => l.key === mapLayer);
+  // Graduated symbology: one line swatch per number of count types (the same teal steps the map uses), then "No counts". There are only a few
+  // steps, so separate swatches read better than a gradient bar.
+  const line = (css, text) => '<span class="legend-row"><i class="legend-line" style="' + css + '"></i>' + text + '</span>';
+  let rows = '';
+  for(let n = 1; n <= (mapLayer === 'all' ? computeMaxTypes() : maxTypesForMode(mapLayer)); n++) rows += line('border-top:4px solid ' + colorForTypeCount(n), n + ' count type' + (n === 1 ? '' : 's'));
+  // "No counts" is listed only when the layer has such blocks right now (every block has some count, so on All counts it appears only after a
+  // Count types or timeframe choice leaves some blocks with none; on a travel-mode layer, blocks with no count of that mode).
+  if(SEGMENTS.some(seg => layerCountOf(seg.id) === 0)) rows += line('border-top:3px dashed #B7BCC4', 'No counts');
+  legend.innerHTML = '<span class="legend-title">' + layer.label + '</span><span class="legend-scale">' + rows + '</span>';
 }
 // ---------- Comparison chart (one chart per location, one color per count type) ----------
 // Vertical space in the details pane that is not chart rows (header, direction step, source step, notes, export footer), and the
@@ -1782,6 +1885,8 @@ function clampViewDates(){
   const orig = monthIndex(viewDay.year, viewDay.month), di = clampIdx(orig), y = Math.floor(di / 12), mo = (di % 12) + 1;
   viewDay = { year: y, month: mo, day: di === orig ? Math.min(viewDay.day, daysInMonth(y, mo)) : daysInMonth(y, mo) };
 }
+// The current year is only partly over, so its bar in the Year view is labeled YTD (year to date) and its tooltip says which months it covers.
+function isYtdYear(y){ return y === NOW.year && NOW.month < 12; }
 function fmtLongDate(y, m, d){ return new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' }); }
 function hourRange(h){ return fmtClock(h * 60) + ' - ' + fmtClock(((h + 1) * 60) % 1440); }
 function hourLabelShort(h){ return h === 0 ? '12a' : h < 12 ? h + 'a' : h === 12 ? '12p' : (h - 12) + 'p'; }
@@ -1811,8 +1916,9 @@ function viewBars(src, loc, kind, mode){
       const arr = byYear[y], total = arr.reduce((a, b) => a + b.total, 0);
       const ms = arr.map(b => b.month).sort((a, c) => a - c), contiguous = ms[ms.length - 1] - ms[0] + 1 === ms.length;
       const span = contiguous ? ' (' + MONTH_NAMES[ms[0] - 1] + (ms.length > 1 ? '-' + MONTH_NAMES[ms[ms.length - 1] - 1] : '') + ')' : '';
-      out.push(Object.assign({}, arr[0], { t: +y, label: y, native: total, plot: total,
-        note: arr.length === 12 ? '' : 'Total of ' + arr.length + ' month' + (arr.length === 1 ? '' : 's') + ' with data' + span }));
+      const ytd = isYtdYear(+y) && ms[ms.length - 1] === NOW.month; // the current year, up to the latest month
+      out.push(Object.assign({}, arr[0], { t: +y, label: ytd ? y + ' (YTD)' : y, native: total, plot: total,
+        note: (arr.length === 12 || ytd) ? '' : 'Total of ' + arr.length + ' month' + (arr.length === 1 ? '' : 's') + ' with data' + span }));
     });
     return out;
   }
@@ -1855,7 +1961,7 @@ function buildSlots(bars){
   if(viewBy === 'hour') return { tMin: 0, slots: Array.from({ length: 24 }, (_, h) => ({ label: hourLabelShort(h), sub: '' })) };
   if(!bars.length) return { tMin: 0, slots: [] };
   const ts = bars.map(b => b.t), tMin = Math.min.apply(null, ts), tMax = Math.max.apply(null, ts);
-  if(viewBy === 'year') return { tMin, slots: Array.from({ length: tMax - tMin + 1 }, (_, i) => ({ label: String(tMin + i), sub: '' })) };
+  if(viewBy === 'year') return { tMin, slots: Array.from({ length: tMax - tMin + 1 }, (_, i) => ({ label: String(tMin + i), sub: isYtdYear(tMin + i) ? 'YTD' : '' })) };
   return { tMin, slots: Array.from({ length: tMax - tMin + 1 }, (_, i) => {
     const idx = tMin + i, y = Math.floor(idx / 12), mo = idx % 12;
     return { label: MONTH_NAMES[mo], sub: (mo === 0 || i === 0) ? String(y) : '', yearStart: mo === 0 && i > 0 };
@@ -2115,7 +2221,7 @@ function renderComparePanel(panel, loc, kind){
   })));
   const axisW = 14 + 4 + Math.ceil(tickChars * 6.6) + 6;
   const fine = viewBy === 'day' || viewBy === 'hour'; // Day and Hour pack more slots in, so their bars and gaps are tighter
-  const padR = 8, padT = 8, padB = (viewBy === 'month' || viewBy === 'day') ? 36 : 24, minBar = fine ? 10 : 18, maxBar = 40, slotGap = fine ? 6 : 8, minLabelSlot = 34;
+  const padR = 8, padT = 8, padB = (viewBy === 'month' || viewBy === 'day' || slots.some(sl => sl.sub)) ? 36 : 24, minBar = fine ? 10 : 18, maxBar = 40, slotGap = fine ? 6 : 8, minLabelSlot = 34;
   const availW = Math.max(240, (panel.clientWidth || window.innerWidth) - (window.innerWidth <= 700 ? 24 : 32) - 26 - axisW); // 26: the chart card's own side padding and border
   const lanes = CATEGORIES.filter(c => allBars.some(b => b.cat.key === c.key)); // count-type order, for consistent left-to-right ordering
   const perSlot = {};
@@ -2422,18 +2528,23 @@ function syncTypeFilterUI(){
   const n = activeTypes.size, total = CATEGORIES.length;
   document.getElementById('typeFilterText').textContent = n === total ? 'All (' + total + ')' : n === 0 ? 'None' : n + ' of ' + total;
 }
+const MODELED_ESTIMATES = ['AADT']; // DDOT's modeled data, not in the portal yet
 function initTypeFilter(){
   const btn = document.getElementById('typeFilterBtn');
   const menu = document.getElementById('typeFilterMenu');
   menu.innerHTML =
     '<div class="type-filter-actions"><button type="button" id="typeSelectAll">Select all</button><button type="button" id="typeClearAll">Clear</button></div>' +
-    CATEGORIES.map(c => '<label class="type-filter-item"><input type="checkbox" value="'+c.key+'" checked><span>'+c.label+'</span></label>').join('');
+    '<div class="type-filter-group">Observed counts</div>' +
+    CATEGORIES.map(c => '<label class="type-filter-item"><input type="checkbox" value="'+c.key+'" checked><span>'+c.label+'</span></label>').join('') +
+    // Modeled estimates are not part of the portal yet; they are listed so it is clear they are out of scope for now and may come later.
+    '<div class="type-filter-group">Modeled estimates</div>' +
+    MODELED_ESTIMATES.map(n => '<div class="type-filter-item is-soon" aria-disabled="true"><input type="checkbox" disabled tabindex="-1" aria-label="'+n+' (coming later)"><span>'+n+'</span><span class="soon-badge">Coming later</span></div>').join('');
   function setOpen(open){ menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); }
   btn.addEventListener('click', (e) => { e.stopPropagation(); setOpen(menu.hidden); });
   menu.addEventListener('click', (e) => e.stopPropagation());
   document.addEventListener('click', () => setOpen(false));
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape') setOpen(false); });
-  menu.querySelectorAll('input[type=checkbox]').forEach(cb => cb.addEventListener('change', () => toggleType(cb.value)));
+  menu.querySelectorAll('input[type=checkbox]:not(:disabled)').forEach(cb => cb.addEventListener('change', () => toggleType(cb.value)));
   document.getElementById('typeSelectAll').addEventListener('click', () => setActiveTypes(CATEGORIES.map(c => c.key)));
   document.getElementById('typeClearAll').addEventListener('click', () => setActiveTypes([]));
   syncTypeFilterUI();
@@ -2492,6 +2603,12 @@ function initTimeframeSlider(){
 // static file would be blocked even though the service itself works fine server-side. Nominatim
 // does send open CORS headers and returns accurate results for DC addresses.
 let addressMarker = null;
+// A geocoder result is used only if it has a text name and numeric coordinates inside the District's area; anything else is dropped.
+function cleanResults(list){
+  return (Array.isArray(list) ? list : []).filter(r => r && typeof r.display_name === 'string' && r.display_name.length <= 300
+    && Number.isFinite(parseFloat(r.lat)) && Number.isFinite(parseFloat(r.lon))
+    && parseFloat(r.lat) > 38.7 && parseFloat(r.lat) < 39.1 && parseFloat(r.lon) > -77.25 && parseFloat(r.lon) < -76.8);
+}
 const ADDRESS_VIEWBOX = '-77.14,39.01,-76.90,38.80'; // left,top,right,bottom -- padded DC bounding box
 function nominatimUrl(query, limit){
   return 'https://nominatim.openstreetmap.org/search?format=json&limit=' + limit + '&bounded=1&viewbox='
@@ -2510,6 +2627,17 @@ function initAddressSearch(){
 
   function showError(msg){ errorEl.textContent = msg; errorEl.style.display = 'block'; }
   function clearError(){ errorEl.style.display = 'none'; }
+  const clearBtn = document.getElementById('addressClearBtn');
+  // The x shows while there is text in the box or a pin on the map. Clearing removes both (and any open suggestions).
+  function syncClear(){ clearBtn.hidden = !(input.value || addressMarker); }
+  function removePin(){ if(addressMarker){ map.removeLayer(addressMarker); addressMarker = null; } }
+  function clearAddress(){
+    removePin();
+    input.value = '';
+    closeSuggestions(); clearError(); syncClear();
+    input.focus();
+  }
+  clearBtn.addEventListener('click', clearAddress);
 
   function goToResult(result){
     const latNum = parseFloat(result.lat), lonNum = parseFloat(result.lon);
@@ -2519,7 +2647,10 @@ function initAddressSearch(){
       icon: L.divIcon({ className:'address-pin', html:'<div class="address-pin-dot"></div>', iconSize:[16,16], iconAnchor:[8,8] }),
       interactive:false
     }).addTo(map);
-    addressMarker.bindTooltip(result.display_name, { className:'seg-tooltip' });
+    const label = document.createElement('span'); // text only: the name is third-party data
+    label.textContent = result.display_name;
+    addressMarker.bindTooltip(label, { className:'seg-tooltip' });
+    syncClear();
   }
 
   function closeSuggestions(){
@@ -2530,21 +2661,25 @@ function initAddressSearch(){
   }
 
   function renderSuggestions(){
-    suggestEl.innerHTML = suggestions.map((r,i) =>
-      '<li role="option" data-idx="'+i+'" class="'+(i===activeIndex?'is-active':'')+'">'+r.display_name+'</li>'
-    ).join('');
-    suggestEl.style.display = suggestions.length ? 'block' : 'none';
-    input.setAttribute('aria-expanded', suggestions.length ? 'true' : 'false');
-    suggestEl.querySelectorAll('li').forEach(li => {
+    // Built as DOM nodes with textContent: the place names come from a third-party service and are never parsed as HTML.
+    suggestEl.textContent = '';
+    suggestions.forEach((r, i) => {
+      const li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      li.dataset.idx = String(i);
+      if(i === activeIndex) li.className = 'is-active';
+      li.textContent = r.display_name;
       li.addEventListener('mousedown', (e) => {
         e.preventDefault(); // fires before input's blur, so the click still registers
-        const r = suggestions[parseInt(li.dataset.idx, 10)];
         input.value = r.display_name;
         closeSuggestions();
         clearError();
         goToResult(r);
       });
+      suggestEl.appendChild(li);
     });
+    suggestEl.style.display = suggestions.length ? 'block' : 'none';
+    input.setAttribute('aria-expanded', suggestions.length ? 'true' : 'false');
   }
 
   let suggestionRequestId = 0;
@@ -2553,7 +2688,7 @@ function initAddressSearch(){
     try {
       const resp = await fetch(nominatimUrl(query, 5));
       if(!resp.ok) throw new Error('request failed');
-      const results = await resp.json();
+      const results = cleanResults(await resp.json());
       if(requestId !== suggestionRequestId) return; // a newer request was issued while this one was in flight -- discard
       suggestions = results;
       activeIndex = -1;
@@ -2574,7 +2709,7 @@ function initAddressSearch(){
     try {
       const resp = await fetch(nominatimUrl(query, 1));
       if(!resp.ok) throw new Error('request failed');
-      const results = await resp.json();
+      const results = cleanResults(await resp.json());
       if(requestId !== searchRequestId) return; // superseded by a newer search (e.g. double Enter) -- discard
       if(!results.length){
         showError('Address not found. Try adding the street type (Ave, St, etc).');
@@ -2591,6 +2726,8 @@ function initAddressSearch(){
   btn.addEventListener('click', doSearch);
   input.addEventListener('input', () => {
     clearError();
+    if(!input.value.trim()) removePin(); // emptying the box takes the pin off the map
+    syncClear();
     clearTimeout(debounceTimer);
     const query = input.value.trim();
     if(query.length < 3){ closeSuggestions(); return; }
@@ -2616,7 +2753,8 @@ function initAddressSearch(){
         doSearch();
       }
     } else if(e.key === 'Escape'){
-      closeSuggestions();
+      if(suggestions.length) closeSuggestions(); // first Escape closes the suggestions; the next one clears the search and the pin
+      else clearAddress();
     }
   });
   document.addEventListener('click', (e) => {
