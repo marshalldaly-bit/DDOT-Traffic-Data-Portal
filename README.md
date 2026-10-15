@@ -2,7 +2,7 @@
 
 A single-page web prototype that helps DDOT staff **compare the volume counts that exist for the same roadway segment** and judge their quality and divergence. Pick a roadway block on the map, then see every observed count type for it side by side, by travel mode, on a common time scale.
 
-> **Prototype status.** The app runs entirely in the browser, with no backend. Most volumes are **synthetic test data**; see [What is real and what is synthetic](#what-is-real-and-what-is-synthetic) below.
+> **Prototype status.** The app runs entirely in the browser and all volumes are **synthetic test data**
 
 ## Versions
 
