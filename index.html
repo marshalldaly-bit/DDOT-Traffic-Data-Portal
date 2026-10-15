@@ -387,8 +387,6 @@
   .type-filter-item.is-soon{color:#949494; cursor:default;}
   .type-filter-item.is-soon:hover{background:transparent;}
   .soon-badge{margin-left:auto; flex:none; font-size:11px; font-weight:500; color:var(--calcite-text-3); background:var(--calcite-surface-3); border:1px solid var(--calcite-border-2); padding:1px 7px;}
-  .welcome-modal-note .welcome-modal-scope{margin:0 0 8px; color:var(--calcite-text-1);}
-  .welcome-modal-note .welcome-modal-scope strong{font-weight:600;}
   .seg-tooltip .seg-type{display:flex; align-items:center; gap:7px; margin-top:3px;}
   .seg-tooltip .type-swatch{margin-top:0;}
   .leaflet-tooltip.seg-tooltip{white-space:normal; width:max-content; max-width:20rem;}
@@ -489,14 +487,13 @@
     <div class="welcome-modal-body">
       <span class="eyebrow">Prototype</span>
       <h2>Welcome to DDOT's Traffic Data Portal</h2>
-      <p class="welcome-steps-lead">Select a roadway segment(s) then:</p>
+      <p class="welcome-steps-lead">Explore roadway segment(s) by:</p>
       <ul class="welcome-steps">
-        <li>Choose a roadway direction and timeframe.</li>
-        <li>Compare available counts, by travel mode.</li>
-        <li>Export counts as a CSV</li>
+        <li>Selecting a travel direction and timeframe;</li>
+        <li>Comparing available counts by travel mode;</li>
+        <li>Exporting counts as a CSV</li>
       </ul>
       <div class="welcome-modal-note">
-        <p class="welcome-modal-scope"><strong>Observed counts only.</strong> Modeled estimates, such as AADT, are not included; future versions may add them.</p>
         <p><span class="welcome-modal-disclaimer">All data in this prototype is synthetic and meant for testing purposes only.</span> Questions or feedback? Contact Marshall Daly at <a href="mailto:marshall.daly@dc.gov">marshall.daly@dc.gov</a>.</p>
       </div>
       <button class="welcome-modal-btn" id="welcomeModalCloseBtn">Start exploring</button>
@@ -1351,7 +1348,7 @@ function buildDataset(){
 }
 
 // ---------- Color scales ----------
-const COVERAGE_STOPS = ['#6BA3A6', '#33727C', '#0E3945']; // teal, light to dark: one count type, the middle step, and the most types any location has (3 today, so the middle stop is exactly 2 types). Each step is a clear, even jump in lightness so 1, 2 and 3 types can be told apart on thin lines against the light gray basemap.
+const COVERAGE_STOPS = ['#5A98D0', '#2D5C9C', '#1B2947']; // blues from DDOT blue (#293e6b), light to dark: one count type, the middle step, and the most types any location has (3 today, so the middle stop is exactly 2 types). The lighter steps lean toward true blue (DDOT blue itself sits a little toward violet, and lightening it makes that show), and the three steps are evenly spaced in lightness so each can be told from its neighbors on thin lines; the lightest still reads against the light gray basemap (about 2.5:1).
 function hexToRgb(hex){
   hex = hex.replace('#','');
   return { r:parseInt(hex.substring(0,2),16), g:parseInt(hex.substring(2,4),16), b:parseInt(hex.substring(4,6),16) };
@@ -1408,7 +1405,7 @@ function typeCountOf(id){
   return n;
 }
 // ---------- Map layers ----------
-// "All count types" colors a block by how many count types have data for it (the teal steps). The three travel-mode layers do the same for one
+// "All count types" colors a block by how many count types have data for it (the DDOT blue steps). The three travel-mode layers do the same for one
 // travel mode at a time -- Micromobility, Pedestrian, Vehicle -- counting only the count types that cover that mode, with the same colors. Two or more
 // means the same thing is counted by different methods. All layers honor the Count types menu and the timeframe.
 const MAP_LAYERS = [
@@ -1815,7 +1812,7 @@ function renderMap(){
 }
 function renderLegend(){
   const legend = document.getElementById('legend'), layer = MAP_LAYERS.find(l => l.key === mapLayer);
-  // Graduated symbology: one line swatch per number of count types (the same teal steps the map uses), then "No counts". There are only a few
+  // Graduated symbology: one line swatch per number of count types (the same blue steps the map uses), then "No counts". There are only a few
   // steps, so separate swatches read better than a gradient bar.
   const line = (css, text) => '<span class="legend-row"><i class="legend-line" style="' + css + '"></i>' + text + '</span>';
   let rows = '';
