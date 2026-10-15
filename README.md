@@ -6,7 +6,7 @@ A single-page web prototype that helps DDOT staff **compare the volume counts th
 
 ## Scope: observed counts only
 
-The portal shows **observed (measured) counts only**. It does **not** include DDOT's modeled estimates, such as AADT. Future iterations may add modeled data alongside the observed counts. The welcome dialog says this, and the Count types menu lists the modeled estimates as "Coming later" (disabled).
+The portal shows **observed (measured) counts only**. It does **not** include DDOT's modeled estimates, such as AADT. Future iterations may add modeled data alongside the observed counts. The Count types menu lists AADT, a modeled estimate, as "Coming later" (disabled).
 
 ## Versions
 
@@ -41,8 +41,8 @@ The page loads Leaflet and SheetJS from cdnjs, map tiles from Esri, and address 
 
 Use the layers button under the zoom buttons to switch the map layer:
 
-- **All counts** (default): each road block is colored by how many count types have data for it (1 to 3 teal steps).
-- **Micromobility, Pedestrian, and Vehicle counts**: the same teal steps, counting only the count types that cover that travel mode. Two or more steps means the same thing is measured by different methods, so those blocks can be compared.
+- **All counts** (default): each road block is colored by how many count types have data for it (1 to 3 steps of DDOT blue, light to dark).
+- **Micromobility, Pedestrian, and Vehicle counts**: the same blue steps, counting only the count types that cover that travel mode. Two or more steps means the same thing is measured by different methods, so those blocks can be compared.
 
 Each legend lists one swatch per step, plus a dashed gray line for "No counts" when the layer has any blocks with none (on All counts that happens only after a Count types or Timeframe choice leaves some blocks with no data).
 
