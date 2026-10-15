@@ -14,9 +14,9 @@ Each version lives on its own branch so earlier versions stay intact.
 
 | Branch | What it is |
 |---|---|
-| `main` | The original prototype: data availability by count type, including modeled AADT. |
+| `main` | The current version of the prototype: data availability by count type, including modeled AADT. |
 | `version_2` | Replaces modeled AADT with the observed count stations (PCS, WIM, FTMS). |
-| `version_3` | This version: built for comparing count methods on the same segment (see below). |
+| `version_3` | Built for comparing count methods on the same segment (see below). |
 
 ## Running it
 
